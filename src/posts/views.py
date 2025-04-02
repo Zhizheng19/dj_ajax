@@ -31,7 +31,7 @@ def load_post_data_view(request, num_posts):
 
 def like_unlike_post(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        print("a Ajax request")
+        # print("a Ajax request")
         pk = request.POST.get('pk')
         obj = Post.objects.get(pk=pk)
         if request.user in obj.liked.all():
