@@ -5,6 +5,7 @@ from .views import (
     load_post_data_view,
     like_unlike_post,
     post_detail,
+    post_detail_data_view
 )
 app_name = 'posts' 
 urlpatterns = [
@@ -14,6 +15,7 @@ urlpatterns = [
     # num of posts (how many posts we should display)
     path('data/<int:num_posts>/', load_post_data_view, name='post-data'),
     path('<pk>/', post_detail, name='post-detail'),
+    path('<pk>/data/', post_detail_data_view, name='post-detail-data'),
     
 ]
 
