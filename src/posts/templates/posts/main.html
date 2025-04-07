@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block scripts %}
-<script src="{% static 'posts/main.js' %}" defer></script>
+    <script src="{% static 'posts/main.js' %}" defer></script>
 {% endblock %}
 
 {% block title %}
@@ -15,16 +16,20 @@ Posts
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Create Post</h1>
+                <h1 class="modal-title" id="exampleModalLabel">Create Post</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <form id="post-form">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">+ add</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success">+ add</button>
-            </div>
+
         </div>
     </div>
 </div>
@@ -32,9 +37,7 @@ Posts
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#addPostModal">
     Add Post
-  </button>
-  
-
+</button>
 <div id="posts-box"></div>
 <div id="spinner-box" class="text-center">
     <div class="spinner-border" role="status"></div>
