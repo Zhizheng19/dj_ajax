@@ -23,7 +23,18 @@ $.ajax({
             updateBtn.classList.remove('not-visible');
             deleteBtn.classList.remove('not-visible');
         }
-
+        
+        const titleEl = document.createElement('h3');
+        titleEl.setAttribute('class', 'mt-3');
+        
+        const bodyEl = document.createElement('p');
+        bodyEl.setAttribute('class', 'mt-1');
+        
+        titleEl.textContent = data.title;
+        bodyEl.textContent = data.body;
+        
+        postBox.appendChild(titleEl);
+        postBox.appendChild(bodyEl);
         spinnerBox.classList.add('not-visible');
         // console.log('data', data);
     },
