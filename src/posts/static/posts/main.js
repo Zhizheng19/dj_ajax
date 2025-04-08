@@ -9,12 +9,15 @@ const postForm = document.getElementById('post-form');
 const title = document.getElementById('id_title');
 const body = document.getElementById('id_body');
 const alertBox = document.getElementById('alert-box');
+
+const addBtn = document.getElementById('add-btn');
+const closeBtns = [...document.getElementsByClassName('add-modal-close')];
+const dropzone = document.getElementById('my-dropzone');
+
 const url = window.location.href;
 
 const csrf = document.getElementsByName('csrfmiddlewaretoken');
 
-console.log('url', url);
-console.log('csrf', csrf[0].value);
 const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -158,14 +161,25 @@ postForm.addEventListener('submit', (e) => {
                 </div>
                 `);
                 likeUnlikePosts();
-                $('#addPostModal').modal('hide');
-                handleAlerts('success', 'New Post added!');
-                postForm.reset();
+                // $('#addPostModal').modal('hide');
+                // handleAlerts('success', 'New Post added!');
+                // postForm.reset();
         },
         error: function (error) {
             console.log('error', error);
             handleAlerts('danger', 'Something went wrong!');
         }
     })
+});
+addBtn.addEventListener('click', () => {
+    dropzone.classList.remove('not-visible');
+});
+closeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        postForm.reset();
+        if (!dropzone.classList.contains('not-visible')) {
+            dropzone.classList.add('not-visible');
+        }
+    });
 });
 getData();
