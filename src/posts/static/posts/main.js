@@ -8,9 +8,11 @@ const endBox = document.getElementById('end-box');
 const postForm = document.getElementById('post-form');
 const title = document.getElementById('id_title');
 const body = document.getElementById('id_body');
-const csrf = document.getElementsByName('csrfmiddlewaretoken');
 const alertBox = document.getElementById('alert-box');
 const url = window.location.href;
+
+const csrf = document.getElementsByName('csrfmiddlewaretoken');
+
 console.log('url', url);
 console.log('csrf', csrf[0].value);
 const getCookie = (name) => {
