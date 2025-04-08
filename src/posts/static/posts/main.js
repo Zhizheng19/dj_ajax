@@ -31,7 +31,11 @@ const getCookie = (name) => {
     return cookieValue;
 }
 const csrftoken = getCookie('csrftoken');
-
+const deleted = localStorage.getItem('deletedTitle');
+if (deleted) {
+    handleAlerts('danger', `"${deleted}" has been deleted.`);
+    localStorage.removeItem('deletedTitle');
+}
 const likeUnlikePosts = (e) => {
     const likeUnlikeForms = [...document.getElementsByClassName('like-unlike-forms')];
     likeUnlikeForms.forEach(form => {

@@ -1,3 +1,4 @@
+console.log(window.location.origin);
 const postBox = document.getElementById('post-box');
 const backBtn = document.getElementById('back-btn');
 const updateBtn = document.getElementById('update-btn');
@@ -63,7 +64,9 @@ backBtn.addEventListener('click', (e) => {
 
 // update post
 updateForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+    e.preventDefault();         // stop the browser from submitting the form,
+                                // so we can do it manually with ajax
+
     const title = document.getElementById('post-title');
     const body = document.getElementById('post-body');
 
@@ -80,6 +83,24 @@ updateForm.addEventListener('submit', (e) => {
             title.textContent = response.title;
             body.textContent = response.body;
             handleAlerts('success', 'Post updated!');
+        },
+        error: function (error) {
+            console.log('error', error);
+        }
+    });
+});
+
+deleteForm.addEventListener('submit', (e) => {
+    e.preventDefault(); 
+    $.ajax({
+        type: 'POST',
+        url: deleteUrl,
+        data: {
+            'csrfmiddlewaretoken': csrf[0].value,
+        },
+        success: function (response) {
+            window.location.href = window.location.origin;
+            localStorage.setItem('deletedTitle',titleInput.value);
         },
         error: function (error) {
             console.log('error', error);
