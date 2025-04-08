@@ -11,8 +11,8 @@ def my_profile_view(request):
             instance = form.save()
             return JsonResponse({
                 'bio': instance.bio,
-                'avatar': instance.avatar,
-                'user': instance.user,
+                'avatar': instance.avatar.url if instance.avatar else None,
+                'user': instance.user.username,
             })
     context = {
         'obj': obj,
