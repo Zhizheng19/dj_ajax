@@ -58,9 +58,9 @@ $.ajax({
     }
 });
 
-backBtn.addEventListener('click', (e) => {
-    history.back();
-});
+// backBtn.addEventListener('click', (e) => {
+//     history.back();
+// });
 
 // update post
 updateForm.addEventListener('submit', (e) => {

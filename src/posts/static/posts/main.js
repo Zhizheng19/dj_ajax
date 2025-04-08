@@ -182,6 +182,8 @@ closeBtns.forEach(btn => {
         if (!dropzone.classList.contains('not-visible')) {
             dropzone.classList.add('not-visible');
         }
+    const dz =Dropzone.forElement("#my-dropzone");
+    dz.removeAllFiles(true);
     });
 });
 
@@ -195,7 +197,7 @@ const myDropzone = new Dropzone("#my-dropzone", {
             formData.append('new_post_id', newPostId);
         });
     },
-    maxFiles: 5,
+    maxFiles: 3,
     maxFilesize: 4,
     acceptedFiles: '.png, .jpg, .jpeg',
 });
