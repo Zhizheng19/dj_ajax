@@ -92,7 +92,7 @@ const getData = () => {
                             </div>
                             <div class="col-2">          
                                 <form class="like-unlike-forms" data-form-id="${el.id}">                       
-                                    <button href="#" class="btn btn-primary" id="like-unlike-${el.id}">
+                                    <button class="btn btn-primary" id="like-unlike-${el.id}">
                                         ${el.liked ? `Unlike (${el.count})`: `Like (${el.count})`}
                                     </button>
                                 </form>
@@ -126,6 +126,7 @@ loadBtn.addEventListener('click', () => {
     getData();
 })
 
+let newPostId = null;
 postForm.addEventListener('submit', (e) => {
     e.preventDefault();
     $.ajax({
@@ -138,6 +139,7 @@ postForm.addEventListener('submit', (e) => {
         },
         success: function (response) {
             console.log('success', response);
+            newPostId = response.id;
             postsBox.insertAdjacentHTML('afterbegin', `
                 <div class="card mb-2">
                     <div class="card-body">
@@ -147,11 +149,11 @@ postForm.addEventListener('submit', (e) => {
                     <div class="card-footer">  
                         <div class="row">
                             <div class="col-2">                                 
-                                <a href="#" class="btn btn-primary">Details</a>
+                                <a href="${url}${response.id}" class="btn btn-primary">Details</a>
                             </div>
                             <div class="col-2">          
                                 <form class="like-unlike-forms" data-form-id="${response.id}">                       
-                                    <button href="#" class="btn btn-primary" id="like-unlike-${response.id}">
+                                    <button class="btn btn-primary" id="like-unlike-${response.id}">
                                     Like (0)
                                     </button>
                                 </form>
@@ -182,4 +184,20 @@ closeBtns.forEach(btn => {
         }
     });
 });
+
+Dropzone.autoDiscover = false;
+console.log("Initializing Dropzone...");
+const myDropzone = new Dropzone("#my-dropzone", {
+    url: "upload/",
+    init: function () {
+        this.on("sending", function (file, xhr,formData) {
+            formData.append('csrfmiddlewaretoken', csrftoken);
+            formData.append('new_post_id', newPostId);
+        });
+    },
+    maxFiles: 5,
+    maxFilesize: 4,
+    acceptedFiles: '.png, .jpg, .jpeg',
+});
+
 getData();
