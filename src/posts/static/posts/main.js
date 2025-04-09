@@ -8,6 +8,7 @@ const endBox = document.getElementById('end-box');
 const postForm = document.getElementById('post-form');
 const title = document.getElementById('id_title');
 const body = document.getElementById('id_body');
+const postAlertBox = document.getElementById('post-alert-box');
 const alertBox = document.getElementById('alert-box');
 
 const addBtn = document.getElementById('add-btn');
@@ -165,17 +166,30 @@ postForm.addEventListener('submit', (e) => {
                 likeUnlikePosts();
                 // $('#addPostModal').modal('hide');
                 // handleAlerts('success', 'New Post added!');
+
+                postAlertBox.innerHTML = `
+                <div class="alert alert-success" role="alert">
+                    New Post added!
+                </div>
+                `;
+                addBtn.setAttribute('disabled', true);
+                dropzone.classList.remove('not-visible');
                 // postForm.reset();
         },
         error: function (error) {
             console.log('error', error);
-            handleAlerts('danger', 'Something went wrong!');
+            postAlertBox.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                Something went wrong!
+            </div>
+            `;
+            // handleAlerts('danger', 'Something went wrong!');
         }
     })
 });
-addBtn.addEventListener('click', () => {
-    dropzone.classList.remove('not-visible');
-});
+// addBtn.addEventListener('click', () => {
+//     dropzone.classList.remove('not-visible');
+// });
 closeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         postForm.reset();
@@ -184,6 +198,8 @@ closeBtns.forEach(btn => {
         }
     const dz =Dropzone.forElement("#my-dropzone");
     dz.removeAllFiles(true);
+    addBtn.removeAttribute('disabled');
+    postAlertBox.reset();
     });
 });
 

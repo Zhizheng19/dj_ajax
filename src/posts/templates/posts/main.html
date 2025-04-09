@@ -25,9 +25,10 @@ Posts
                     {{form|crispy}}
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger add-modal-close" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" id="add-btn" class="btn btn-success">+ add</button>
+                        <button type="submit" id="add-btn" class="btn btn-success"> Post &amp; Add Images</button>
                     </div>
                 </form>
+                <div id="post-alert-box"></div>
                 <form action="upload/" class="dropzone dz not-visible" id="my-dropzone">
                     {% csrf_token %}
                     <div class="fallback">
