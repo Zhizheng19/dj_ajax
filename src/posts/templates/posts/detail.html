@@ -86,5 +86,15 @@
         <div class="spinner-border" role="status"></div>
     </div>
     <div class="mt-1" id="post-box"></div>
+</hr>
+    <div class="mt-4 p-3 border rounded bg-light">
+        <div class="d-flex align-items-center">
+            <img src="{{ obj.author.avatar.url }}" alt="{{ obj.author.user.username }}" class="rounded-circle me-3" width="60px" height="60px">
+            <div>
+                <p class="mb-1"><strong>{{ obj.author.user.username }}</strong></p>
+            </div>
+        </div>
+    </div>
+    
 {% endblock content %}
 
