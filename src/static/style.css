@@ -9,3 +9,19 @@
 .dz:hover {
     background-color: aliceblue !important;
 }
+
+.carousel-item {
+    position: relative !important;
+    height: 600px !important; 
+    background-color: whitesmoke ;
+    text-align: center !important; 
+}
+
+.carousel-item img {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    height: 100% !important;
+    width: auto !important;
+}
