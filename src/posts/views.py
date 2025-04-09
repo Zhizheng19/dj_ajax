@@ -5,6 +5,7 @@ from .forms import PostForm
 from profiles.models import Profile
 from .utils import action_permission
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
 @login_required
 def post_list_and_create(request):
@@ -61,6 +62,7 @@ def load_post_data_view(request, num_posts):
             }
             data.append(item)
         return JsonResponse({'data': data[lower:upper], 'size': size})
+    return redirect('posts:main-board')
 @login_required
 def post_detail_data_view(request,pk):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -73,6 +75,7 @@ def post_detail_data_view(request,pk):
             'logged_in': request.user.username,
         }
         return JsonResponse({'data': data})
+    return redirect('posts:main-board')
 @login_required
 def like_unlike_post(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -85,6 +88,7 @@ def like_unlike_post(request):
             liked = True
             obj.liked.add(request.user)
         return JsonResponse({'liked':liked, 'count':obj.like_count})
+    return redirect('posts:main-board')
 @login_required
 @ action_permission
 def update_post(request, pk):
@@ -101,6 +105,7 @@ def update_post(request, pk):
                 'title': obj.title,
                 'body': obj.body
             })
+    return redirect('posts:main-board')
 @login_required
 @ action_permission
 def delete_post(request, pk):
@@ -108,7 +113,7 @@ def delete_post(request, pk):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         obj.delete()
         return JsonResponse({'message':'deleted'})
-    return HttpResponse('not allowed')
+    return redirect('posts:main-board')
 @login_required
 def image_upload_view(request):
     print(request.FILES)
@@ -117,5 +122,4 @@ def image_upload_view(request):
         new_post_id = request.POST.get('new_post_id')
         post = Post.objects.get(id=new_post_id)
         Photo.objects.create(post=post, image=img)
-
     return HttpResponse()
