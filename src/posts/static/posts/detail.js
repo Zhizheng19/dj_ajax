@@ -1,4 +1,10 @@
-console.log(window.location.origin);
+/*
+* FILE         : detail.js
+* PROJECT      : Full Stack Framework Assignment
+* PROGRAMMER   : Zhizhong Dong
+* FIRST VERSION: 2025-04-09
+* DESCRIPTION  : Handles AJAX requests for post details, update, delete, and dynamically updating the UI.
+*/
 const postBox = document.getElementById('post-box');
 const backBtn = document.getElementById('back-btn');
 const updateBtn = document.getElementById('update-btn');
@@ -18,17 +24,19 @@ const updateForm = document.getElementById('update-form');
 const deleteForm = document.getElementById('delete-form');
 
 const csrf = document.getElementsByName('csrfmiddlewaretoken');
-
+/*
+* AJAX GET request for post details data
+*/
 $.ajax({
     type: 'GET',
     url: url,
     success: function (response) {
-        console.log('success', response);
+        // console.log('success', response);
         const data = response.data;
         if (data.logged_in !== data.author ) {
-            console.log("different user");
+            // console.log("different user");
         } else {
-            console.log("same user");
+            // console.log("same user");
             updateBtn.classList.remove('not-visible');
             deleteBtn.classList.remove('not-visible');
         }
@@ -54,15 +62,12 @@ $.ajax({
         // console.log('data', data);
     },
     error: function (error) {
-        console.log('error', error);
+        // console.log('error', error);
     }
 });
 
-// backBtn.addEventListener('click', (e) => {
-//     history.back();
-// });
 
-// update post
+// POST requests for update
 updateForm.addEventListener('submit', (e) => {
     e.preventDefault();         // stop the browser from submitting the form,
                                 // so we can do it manually with ajax
@@ -79,17 +84,17 @@ updateForm.addEventListener('submit', (e) => {
             'body': bodyInput.value,
         },
         success: function (response) {
-            console.log('success', response);
+            // console.log('success', response);
             title.textContent = response.title;
             body.textContent = response.body;
             handleAlerts('success', 'Post updated!');
         },
         error: function (error) {
-            console.log('error', error);
+            // console.log('error', error);
         }
     });
 });
-
+// POST requests for delete
 deleteForm.addEventListener('submit', (e) => {
     e.preventDefault(); 
     $.ajax({
@@ -103,7 +108,7 @@ deleteForm.addEventListener('submit', (e) => {
             localStorage.setItem('deletedTitle',titleInput.value);
         },
         error: function (error) {
-            console.log('error', error);
+            // console.log('error', error);
         }
     });
 });

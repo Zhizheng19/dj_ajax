@@ -1,3 +1,11 @@
+"""
+FILE         : posts/models.py
+PROJECT      : Full Stack Framework Assignment
+PROGRAMMER   : Zhizhong Dong
+FIRST VERSION: 2025-04-09
+DESCRIPTION  : Data models for Post and Photo, defining database schema and relations.
+"""
+
 from django.db import models
 from django.contrib.auth.models import User
 from profiles.models import Profile

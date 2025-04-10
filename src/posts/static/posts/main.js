@@ -1,5 +1,10 @@
-console.log('hello world');
-
+/*
+* FILE         : main.js
+* PROJECT      : Full Stack Framework Assignment
+* PROGRAMMER   : Zhizhong Dong
+* FIRST VERSION: 2025-04-09
+* DESCRIPTION  : Handles loading posts, creating new posts, liking/unliking posts, and loading more posts.
+*/
 const helloWorldBox = document.getElementById('hello-world');
 const postsBox = document.getElementById('posts-box');
 const spinnerBox = document.getElementById('spinner-box');
@@ -19,6 +24,7 @@ const url = window.location.href;
 
 const csrf = document.getElementsByName('csrfmiddlewaretoken');
 
+// get cookie for csrftoken
 const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -35,18 +41,20 @@ const getCookie = (name) => {
     return cookieValue;
 }
 const csrftoken = getCookie('csrftoken');
+// check if a post has been deleted, and show an alert if so
 const deleted = localStorage.getItem('deletedTitle');
 if (deleted) {
     handleAlerts('danger', `"${deleted}" has been deleted.`);
     localStorage.removeItem('deletedTitle');
 }
+// like/unlike posts and update the like count
 const likeUnlikePosts = (e) => {
     const likeUnlikeForms = [...document.getElementsByClassName('like-unlike-forms')];
     likeUnlikeForms.forEach(form => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const clickedId = e.target.getAttribute('data-form-id');
-            console.log('clickedId', clickedId);
+            // console.log('clickedId', clickedId);
             const clickedBtn = document.getElementById(`like-unlike-${clickedId}`);
 
             $.ajax({
@@ -57,11 +65,11 @@ const likeUnlikePosts = (e) => {
                     'pk': clickedId,
                 },
                 success: function (response) {
-                    console.log('success', response);
+                    // console.log('success', response);
                     clickedBtn.textContent = response.liked ? `Unlike (${response.count})` : `Like (${response.count})`
                 },
                 error: function (error) {
-                    console.log('error', error);
+                    // console.log('error', error);
                 }
             })
         })
@@ -69,14 +77,15 @@ const likeUnlikePosts = (e) => {
 }
 
 let visible = 3;    // how many posts to show
+// get posts data and display them
 const getData = () => {
     $.ajax({
         type: 'GET',
         url: `data/${visible}`,
         success: function (response) {
-            console.log('success', response);
+            // console.log('success', response);
             const data = response.data; // get all the posts data
-            console.log('data', data);
+            // console.log('data', data);
             setTimeout(() => {
                 spinnerBox.classList.add('not-visible');
                 data.forEach(el => {
@@ -106,7 +115,7 @@ const getData = () => {
                 });
                 likeUnlikePosts();
             }, 100)
-            console.log(response.size);
+            // console.log(response.size);
             if (response.size === 0) {
                 endBox.textContent = 'No posts added yet...';
             }
@@ -116,17 +125,18 @@ const getData = () => {
             }
         },
         error: function (error) {
-            console.log('error', error);
+            // console.log('error', error);
         }
     })
 }
-
+// load more posts
 loadBtn.addEventListener('click', () => {
     spinnerBox.classList.remove('not-visible');
     visible += 3;
     getData();
 })
 
+// create a new post
 let newPostId = null;
 postForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -139,7 +149,7 @@ postForm.addEventListener('submit', (e) => {
             'body': body.value,
         },
         success: function (response) {
-            console.log('success', response);
+            // console.log('success', response);
             newPostId = response.id;
             postsBox.insertAdjacentHTML('afterbegin', `
                 <div class="card mb-2">
@@ -177,7 +187,7 @@ postForm.addEventListener('submit', (e) => {
                 // postForm.reset();
         },
         error: function (error) {
-            console.log('error', error);
+            // console.log('error', error);
             postAlertBox.innerHTML = `
             <div class="alert alert-danger" role="alert">
                 Something went wrong!
@@ -187,9 +197,8 @@ postForm.addEventListener('submit', (e) => {
         }
     })
 });
-// addBtn.addEventListener('click', () => {
-//     dropzone.classList.remove('not-visible');
-// });
+
+// close add post modal
 closeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         postForm.reset();
@@ -204,7 +213,7 @@ closeBtns.forEach(btn => {
 });
 
 Dropzone.autoDiscover = false;
-console.log("Initializing Dropzone...");
+// console.log("Initializing Dropzone...");
 const myDropzone = new Dropzone("#my-dropzone", {
     url: "upload/",
     init: function () {

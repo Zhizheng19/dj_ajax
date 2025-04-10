@@ -1,3 +1,11 @@
+"""
+FILE         : posts/views.py
+PROJECT      : Full Stack Framework Assignment
+PROGRAMMER   : Zhizhong Dong
+FIRST VERSION: 2025-04-09
+DESCRIPTION  : Define views to handle post creation, detail view,
+    updates, deletions, likes, and image uploads.
+"""
 from django.shortcuts import render
 from .models import Post, Photo
 from django.http import JsonResponse, HttpResponse
@@ -7,6 +15,10 @@ from .utils import action_permission
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
+""" 
+FUNCTION    : post_list_and_create
+DESCRIPTION : Handle post listing and creation in the main page.
+"""
 @login_required
 def post_list_and_create(request):
     form = PostForm(request.POST or None)
@@ -29,6 +41,11 @@ def post_list_and_create(request):
         'form': form,
     }
     return render(request, 'posts/main.html', context)
+
+"""
+FUNCTION    : post_detail
+DESCRIPTION : Render the detail page for a specific post.
+"""
 @login_required
 def post_detail(request, pk):
     obj = Post.objects.get(pk=pk)
@@ -39,6 +56,10 @@ def post_detail(request, pk):
         'form': form  ,  
     }
     return render(request, 'posts/detail.html', context)
+"""
+FUNCTION    : load_post_data
+DESCRIPTION : Load more post data for the main page.
+"""
 @login_required
 def load_post_data_view(request, num_posts):
     # num_posts = kwargs.get('num_posts')
@@ -63,6 +84,11 @@ def load_post_data_view(request, num_posts):
             data.append(item)
         return JsonResponse({'data': data[lower:upper], 'size': size})
     return redirect('posts:main-board')
+
+"""
+FUNCTION    : post_detail_data
+DESCRIPTION : Retrieve details of a specific post
+"""
 @login_required
 def post_detail_data_view(request,pk):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -76,6 +102,10 @@ def post_detail_data_view(request,pk):
         }
         return JsonResponse({'data': data})
     return redirect('posts:main-board')
+"""
+FUNCTION    : like_unlike_post
+DESCRIPTION : Handle liking and unliking a post.
+"""
 @login_required
 def like_unlike_post(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -89,6 +119,10 @@ def like_unlike_post(request):
             obj.liked.add(request.user)
         return JsonResponse({'liked':liked, 'count':obj.like_count})
     return redirect('posts:main-board')
+"""
+FUNCTION    : update_post
+DESCRIPTION : Handle updating a post title and body in the detail page.
+"""
 @login_required
 @ action_permission
 def update_post(request, pk):
@@ -106,6 +140,10 @@ def update_post(request, pk):
                 'body': obj.body
             })
     return redirect('posts:main-board')
+"""
+FUNCTION    : delete_post
+DESCRIPTION : Handle deleting a post in the detail page.
+"""
 @login_required
 @ action_permission
 def delete_post(request, pk):
@@ -114,6 +152,10 @@ def delete_post(request, pk):
         obj.delete()
         return JsonResponse({'message':'deleted'})
     return redirect('posts:main-board')
+"""
+FUNCTION    : image_upload_view
+DESCRIPTION : Handle uploading an image for a post.
+"""
 @login_required
 def image_upload_view(request):
     print(request.FILES)

@@ -1,9 +1,20 @@
+"""
+FILE         : profiles/views.py
+PROJECT      : Full Stack Framework Assignment
+PROGRAMMER   : Zhizhong Dong
+FIRST VERSION: 2025-04-09
+DESCRIPTION  : 
+    Define views to handle profile display and updates.
+"""
 from django.shortcuts import render
 from .models import Profile
 from .forms import ProfileForm
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-
+"""
+FUNCTION    : my_profile_view
+DESCRIPTION : Handle profile display and updates.
+"""
 @login_required
 def my_profile_view(request):
     obj = Profile.objects.get(user=request.user)

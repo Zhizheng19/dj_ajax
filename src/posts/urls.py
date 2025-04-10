@@ -1,3 +1,11 @@
+"""
+FILE         : posts/urls.py
+PROJECT      : Full Stack Framework Assignment
+PROGRAMMER   : Zhizhong Dong
+FIRST VERSION: 2025-04-09
+DESCRIPTION  : 
+    URL configuration for post-related views and URLs.
+"""
 from django.urls import path
 from .views import (
     post_list_and_create,

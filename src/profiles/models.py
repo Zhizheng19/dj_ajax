@@ -1,3 +1,11 @@
+"""
+FILE         : profiles/models.py
+PROJECT      : Full Stack Framework Assignment
+PROGRAMMER   : Zhizhong Dong
+FIRST VERSION: 2025-04-09
+DESCRIPTION  : 
+    Data models for user profile.
+"""
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
